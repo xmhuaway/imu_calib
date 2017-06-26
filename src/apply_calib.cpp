@@ -68,11 +68,12 @@ ApplyCalib::ApplyCalib() :
   int queue_size;
   nh_private.param<int>("queue_size", queue_size, 5);
 
-  raw_sub_ = nh.subscribe("raw", queue_size, &ApplyCalib::rawImuCallback, this);
-  corrected_pub_ = nh.advertise<sensor_msgs::Imu>("corrected", queue_size);
+  raw_sub_ = nh.subscribe("raw_imu", queue_size, &ApplyCalib::rawImuCallback, this);
+  corrected_pub_ = nh.advertise<sensor_msgs::Imu>("imu/data_raw", queue_size);
+  mag_pub_ = nh.advertise<sensor_msgs::MagneticField>("imu/mag", queue_size);
 }
 
-void ApplyCalib::rawImuCallback(sensor_msgs::Imu::ConstPtr raw)
+void ApplyCalib::rawImuCallback(lino_msgs::Imu::ConstPtr raw)
 {
   if (calibrate_gyros_)
   {
@@ -93,16 +94,49 @@ void ApplyCalib::rawImuCallback(sensor_msgs::Imu::ConstPtr raw)
     return;
   }
 
-  sensor_msgs::Imu corrected = *raw;
+  //input array for acceleration calibration
+  double raw_accel[3];
+  //output array for calibrated acceleration
+  double corrected_accel[3];
 
-  calib_.applyCalib(raw->linear_acceleration.x, raw->linear_acceleration.y, raw->linear_acceleration.z,
-                    &corrected.linear_acceleration.x, &corrected.linear_acceleration.y, &corrected.linear_acceleration.z);
+  //pass received acceleration to input array
+  raw_accel[0] = raw->linear_acceleration.x;
+  raw_accel[1] = raw->linear_acceleration.y;
+  raw_accel[2] = raw->linear_acceleration.z;
 
-  corrected.angular_velocity.x -= gyro_bias_x_;
-  corrected.angular_velocity.y -= gyro_bias_y_;
-  corrected.angular_velocity.z -= gyro_bias_z_;
+  //apply calibrated 
+  calib_.applyCalib(raw_accel, corrected_accel);
 
+  //create calibrated data object
+  sensor_msgs::Imu corrected;
+
+  corrected.header.stamp = ros::Time::now();
+  corrected.header.frame_id = "imu_link";
+  
+  //pass calibrated acceleration to corrected IMU data object
+  corrected.linear_acceleration.x = corrected_accel[0];
+  corrected.linear_acceleration.y = corrected_accel[1];
+  corrected.linear_acceleration.z = corrected_accel[2];
+  
+  //add calibration bias to  received angular velocity and pass to to corrected IMU data object
+  corrected.angular_velocity.x = raw->angular_velocity.x + gyro_bias_x_;
+  corrected.angular_velocity.y = raw->angular_velocity.y + gyro_bias_y_;
+  corrected.angular_velocity.z = raw->angular_velocity.z + gyro_bias_z_;
+
+  //publish calibrated IMU data
   corrected_pub_.publish(corrected);
+
+
+  sensor_msgs::MagneticField mag_msg;
+
+  mag_msg.header.stamp = ros::Time::now();
+
+  //scale received magnetic (miligauss to tesla)
+  mag_msg.magnetic_field.x = raw->magnetic_field.x * 0.0000001;
+  mag_msg.magnetic_field.y = raw->magnetic_field.y * 0.0000001;
+  mag_msg.magnetic_field.z = raw->magnetic_field.z * 0.0000001;
+  
+  mag_pub_.publish(mag_msg);
 }
 
 } // namespace accel_calib

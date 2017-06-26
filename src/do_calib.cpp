@@ -48,7 +48,7 @@ DoCalib::DoCalib() :
   state_(START)
 {
   ros::NodeHandle nh;
-  imu_sub_ = nh.subscribe("imu", 1, &DoCalib::imuCallback, this);
+  imu_sub_ = nh.subscribe("raw_imu", 1, &DoCalib::imuCallback, this);
 
   ros::NodeHandle nh_private("~");
   nh_private.param<int>("measurements", measurements_per_orientation_, 500);
@@ -75,7 +75,7 @@ bool DoCalib::running()
   return state_ != DONE;
 }
 
-void DoCalib::imuCallback(sensor_msgs::Imu::ConstPtr imu)
+void DoCalib::imuCallback(lino_msgs::Imu::ConstPtr imu)
 {
   bool accepted;
 

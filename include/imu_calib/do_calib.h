@@ -40,7 +40,8 @@
  */
 
 #include <ros/ros.h>
-#include <sensor_msgs/Imu.h>
+
+#include <lino_msgs/Imu.h>
 
 #include <string>
 #include <vector>
@@ -77,7 +78,7 @@ private:
   std::string orientation_labels_[6];
 
   ros::Subscriber imu_sub_;
-  void imuCallback(sensor_msgs::Imu::ConstPtr imu);
+  void imuCallback(lino_msgs::Imu::ConstPtr imu);
 };
 
 } // namespace accel_calib
