@@ -15,7 +15,7 @@ The underlying algorithm is a least-squares calibration approach based on and si
 #### Topics
 
 ##### Subscribed Topics
-- `imu` (sensor_msgs/Imu) <br>
+- `raw_imu` (lino_msgs/Imu) <br>
   The raw, uncalibrated IMU measurements
 
 #### Parameters
