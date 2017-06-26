@@ -32,11 +32,11 @@ Applies the accelerometer calibration parameters computed by the do_calib node. 
 #### Topics
 
 ##### Subscribed Topics
-- `raw` (sensor_msgs/Imu) <br>
+- `raw_imu` (lino_msgs/Imu) <br>
   The raw, uncalibrated IMU measurements
 
 ##### Published Topics
-- `corrected` (sensor_msgs/Imu) <br>
+- `imu/data_raw` (sensor_msgs/Imu) <br>
   The corrected, calibrated IMU measurements
 
 #### Parameters
