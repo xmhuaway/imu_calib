@@ -119,9 +119,9 @@ void ApplyCalib::rawImuCallback(lino_msgs::Imu::ConstPtr raw)
   corrected.linear_acceleration.z = corrected_accel[2];
   
   //add calibration bias to  received angular velocity and pass to to corrected IMU data object
-  corrected.angular_velocity.x = raw->angular_velocity.x + gyro_bias_x_;
-  corrected.angular_velocity.y = raw->angular_velocity.y + gyro_bias_y_;
-  corrected.angular_velocity.z = raw->angular_velocity.z + gyro_bias_z_;
+  corrected.angular_velocity.x = raw->angular_velocity.x - gyro_bias_x_;
+  corrected.angular_velocity.y = raw->angular_velocity.y - gyro_bias_y_;
+  corrected.angular_velocity.z = raw->angular_velocity.z - gyro_bias_z_;
 
   //publish calibrated IMU data
   corrected_pub_.publish(corrected);
