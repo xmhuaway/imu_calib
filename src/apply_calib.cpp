@@ -132,9 +132,9 @@ void ApplyCalib::rawImuCallback(lino_msgs::Imu::ConstPtr raw)
   mag_msg.header.stamp = ros::Time::now();
 
   //scale received magnetic (miligauss to tesla)
-  mag_msg.magnetic_field.x = raw->magnetic_field.x * 0.0000001;
-  mag_msg.magnetic_field.y = raw->magnetic_field.y * 0.0000001;
-  mag_msg.magnetic_field.z = raw->magnetic_field.z * 0.0000001;
+  mag_msg.magnetic_field.x = raw->magnetic_field.x;
+  mag_msg.magnetic_field.y = raw->magnetic_field.y;
+  mag_msg.magnetic_field.z = raw->magnetic_field.z;
   
   mag_pub_.publish(mag_msg);
 }
