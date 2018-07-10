@@ -122,6 +122,19 @@ void ApplyCalib::rawImuCallback(lino_msgs::Imu::ConstPtr raw)
   corrected.angular_velocity.x = raw->angular_velocity.x - gyro_bias_x_;
   corrected.angular_velocity.y = raw->angular_velocity.y - gyro_bias_y_;
   corrected.angular_velocity.z = raw->angular_velocity.z - gyro_bias_z_;
+  
+  //https://github.com/KristofRobot/razor_imu_9dof/blob/indigo-devel/nodes/imu_node.py
+  corrected.orientation_covariance[0] = 0.0025;
+  corrected.orientation_covariance[4] = 0.0025;
+  corrected.orientation_covariance[8] = 0.0025;
+  
+  corrected.angular_velocity_covariance[0] = 0.02;
+  corrected.angular_velocity_covariance[4] = 0.02;
+  corrected.angular_velocity_covariance[8] = 0.02;
+
+  corrected.linear_acceleration_covariance[0] = 0.04;
+  corrected.linear_acceleration_covariance[4] = 0.04;
+  corrected.linear_acceleration_covariance[8] = 0.04;
 
   //publish calibrated IMU data
   corrected_pub_.publish(corrected);
