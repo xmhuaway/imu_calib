@@ -128,13 +128,13 @@ void ApplyCalib::rawImuCallback(lino_msgs::Imu::ConstPtr raw)
   corrected.orientation_covariance[4] = 0.0025;
   corrected.orientation_covariance[8] = 0.0025;
   
-  corrected.angular_velocity_covariance[0] = 0.02;
-  corrected.angular_velocity_covariance[4] = 0.02;
-  corrected.angular_velocity_covariance[8] = 0.02;
+  corrected.angular_velocity_covariance[0] = 0.000001;
+  corrected.angular_velocity_covariance[4] = 0.000001;
+  corrected.angular_velocity_covariance[8] = 0.000001;
 
-  corrected.linear_acceleration_covariance[0] = 0.04;
-  corrected.linear_acceleration_covariance[4] = 0.04;
-  corrected.linear_acceleration_covariance[8] = 0.04;
+  corrected.linear_acceleration_covariance[0] = 0.0001;
+  corrected.linear_acceleration_covariance[4] = 0.0001;
+  corrected.linear_acceleration_covariance[8] = 0.0001;
 
   //publish calibrated IMU data
   corrected_pub_.publish(corrected);
