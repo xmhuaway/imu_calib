@@ -64,8 +64,8 @@ DoCalib::DoCalib() :
 
   orientation_labels_[AccelCalib::XPOS] = "X+ axis - Front side of the robot";
   orientation_labels_[AccelCalib::XNEG] = "X- axis - Rear side of the robot" ;
-  orientation_labels_[AccelCalib::YPOS] = "Y+ axis - Right side of the robot";
-  orientation_labels_[AccelCalib::YNEG] = "Y- axis - Left side of the robot";
+  orientation_labels_[AccelCalib::YPOS] = "Y+ axis - Left side of the robot";
+  orientation_labels_[AccelCalib::YNEG] = "Y- axis - Right side of the robot";
   orientation_labels_[AccelCalib::ZPOS] = "Z+ axis - Top side of the robot";
   orientation_labels_[AccelCalib::ZNEG] = "Z- axis - Bottom side of the robot";
 }
