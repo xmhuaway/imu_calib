@@ -73,7 +73,7 @@ ApplyCalib::ApplyCalib() :
   mag_pub_ = nh.advertise<sensor_msgs::MagneticField>("imu/mag", queue_size);
 }
 
-void ApplyCalib::rawImuCallback(lino_msgs::Imu::ConstPtr raw)
+void ApplyCalib::rawImuCallback(aibot_msgs::Imu::ConstPtr raw)
 {
   if (calibrate_gyros_)
   {

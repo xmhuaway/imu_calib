@@ -5,7 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
   cmake_modules
   roscpp
   sensor_msgs
-  lino_msgs
+  aibot_msgs
 )
 
 find_package(Eigen REQUIRED)
@@ -18,7 +18,7 @@ pkg_check_modules(YAML yaml-cpp)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES accel_calib
-  CATKIN_DEPENDS cmake_modules roscpp sensor_msgs lino_msgs
+  CATKIN_DEPENDS cmake_modules roscpp sensor_msgs aibot_msgs
   DEPENDS Eigen yaml-cpp
 )
 

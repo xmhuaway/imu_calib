@@ -40,7 +40,7 @@
  */
 
 #include <ros/ros.h>
-#include <lino_msgs/Imu.h>
+#include <aibot_msgs/Imu.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/MagneticField.h>
 
@@ -61,7 +61,7 @@ private:
   ros::Publisher corrected_pub_;
   ros::Publisher mag_pub_;
 
-  void rawImuCallback(lino_msgs::Imu::ConstPtr raw);
+  void rawImuCallback(aibot_msgs::Imu::ConstPtr raw);
 
   bool calibrate_gyros_;
   int gyro_calib_samples_;
